@@ -1,44 +1,45 @@
-const newTaskForm = document.getElementById("new-task-form");
-const tasksList = document.getElementById("tasks-list");
-const newTaskPopUp = document.getElementById("new-task-popup");
+const newTaskForm = document.getElementById('new-task-form');
+const tasksList = document.getElementById('tasks-list');
+const newTaskPopUp = document.getElementById('new-task-popup');
+const sideMenu = document.getElementById('side-menu');
 
 let tasks = [];
 let showNewTaskPopUp = false;
+let showSideMenu = false;
 
 const clearListView = () => {
   const children = [...tasksList.children];
   children.forEach((child) => {
     tasksList.removeChild(child);
   });
-};
+}
 
 const updateListView = () => {
-  console.log("updateListView", tasks);
   clearListView();
 
   tasks.forEach((task) => {
-    const listItem = document.createElement("li");
-    listItem.classList.add("tasks-list-item");
+    const listItem = document.createElement('li');
+    listItem.classList.add('tasks-list-item');
 
-    const header = document.createElement("div");
-    header.classList.add("tasks-list-header");
+    const header = document.createElement('div');
+    header.classList.add('tasks-list-header');
     listItem.appendChild(header);
 
-    const checkboxIsDone = document.createElement("input");
-    checkboxIsDone.setAttribute("type", "checkbox");
+    const checkboxIsDone = document.createElement('input');
+    checkboxIsDone.setAttribute('type', 'checkbox');
     checkboxIsDone.checked = task.isDone;
     checkboxIsDone.onchange = () => {
       handleCheckboxChange(task);
-    };
+    }
     header.appendChild(checkboxIsDone);
 
-    const title = document.createElement("p");
+    const title = document.createElement('p');
     title.textContent = task.title;
     header.appendChild(title);
 
-    const buttonDelete = document.createElement("button");
-    buttonDelete.classList.add("button-delete");
-    buttonDelete.innerHTML = "Delete";
+    const buttonDelete = document.createElement('button');
+    buttonDelete.classList.add('button-delete');
+    buttonDelete.innerHTML = 'Excluir';
     buttonDelete.onclick = () => {
       handleDeleteClick(task);
     };
@@ -46,10 +47,10 @@ const updateListView = () => {
 
     tasksList.appendChild(listItem);
   });
-};
+}
 
 const loadFromLocalStorage = () => {
-  const savedData = localStorage.getItem("tasks");
+  const savedData = localStorage.getItem('tasks');
 
   if (savedData === null) {
     return;
@@ -59,14 +60,14 @@ const loadFromLocalStorage = () => {
   tasks = parsedData;
 
   updateListView();
-};
+}
 
 loadFromLocalStorage();
 
 const saveToLocalStorage = () => {
   const parsedData = JSON.stringify(tasks);
-  localStorage.setItem("tasks", parsedData);
-};
+  localStorage.setItem('tasks', parsedData);
+}
 
 const handleDeleteClick = (targetTask) => {
   const filtered = tasks.filter((task) => {
@@ -76,24 +77,24 @@ const handleDeleteClick = (targetTask) => {
 
   saveToLocalStorage();
   updateListView();
-};
+}
 
 const handleCheckboxChange = (targetTask) => {
   targetTask.isDone = !targetTask.isDone;
 
   saveToLocalStorage();
   updateListView();
-};
+}
 
 const toggleNewTaskPopUp = () => {
   showNewTaskPopUp = !showNewTaskPopUp;
 
   if (showNewTaskPopUp) {
-    newTaskPopUp.style.display = "block";
+    newTaskPopUp.style.display = 'block';
   } else {
-    newTaskPopUp.style.display = "none";
+    newTaskPopUp.style.display = 'none';
   }
-};
+}
 
 const handleSubmit = (event) => {
   event.preventDefault();
@@ -105,8 +106,8 @@ const handleSubmit = (event) => {
     id: tasks.length,
     title: formEntries.title,
     description: formEntries.description,
-    isDone: false,
-  };
+    isDone: false
+  }
 
   tasks.unshift(newTask);
   saveToLocalStorage();
@@ -116,15 +117,33 @@ const handleSubmit = (event) => {
   updateListView();
 
   toggleNewTaskPopUp();
-};
+}
 
-newTaskForm.addEventListener("submit", handleSubmit);
+newTaskForm.addEventListener('submit', handleSubmit);
 
 const handleKeyDown = (event) => {
   // ESC
   if (event.keyCode === 27 && showNewTaskPopUp) {
     toggleNewTaskPopUp();
   }
-};
+}
 
-document.addEventListener("keydown", handleKeyDown);
+document.addEventListener('keydown', handleKeyDown);
+
+const toggleSideMenu = () => {
+  showSideMenu = !showSideMenu;
+
+  if (showSideMenu) {
+    sideMenu.classList.add('side-menu-open');
+  } else {
+    sideMenu.classList.remove('side-menu-open');
+  }
+}
+
+const handleResize = () => {
+  if (window.innerWidth >= 922 && showSideMenu) {
+    toggleSideMenu();
+  }
+}
+
+window.addEventListener('resize', handleResize);

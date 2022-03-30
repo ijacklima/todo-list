@@ -4,8 +4,8 @@
 }
 
 body {
-  background-color: #f6f8fa;
-  font-family: "Roboto", sans-serif;
+  background-color: #F6F8FA;
+  font-family: 'Roboto', sans-serif;
 }
 
 a {
@@ -14,7 +14,7 @@ a {
 }
 
 button {
-  background-color: #005cc8;
+  background-color: #005CC8;
   border: none;
   color: white;
   border-radius: 3px;
@@ -51,7 +51,7 @@ textarea {
 
 .header {
   align-items: center;
-  background-color: #005cc8;
+  background-color: #005CC8;
   color: white;
   display: flex;
   justify-content: space-between;
@@ -138,12 +138,11 @@ textarea {
   border-radius: 3px;
   border: solid 1px #d0d7de;
   margin: 10px 0px;
-
-  transition: background-color 100ms ease-in-out;
+  transition: background-color 1000ms ease-in-out;
 }
 
 .tasks-list-item:hover {
-  background-color: #f6f8fa;
+  background-color: #F6F8FA;
 }
 
 .menu {
@@ -159,7 +158,38 @@ textarea {
 }
 
 .menu-item {
+  cursor: pointer;
   padding: 0px 10px;
+}
+
+.side-menu {
+  background-color: white;
+  bottom: 0px;
+  left: 0px;
+  position: absolute;
+  right: 50%;
+  top: 58px;
+  transform: translateX(-100%);
+  transition: transform 200ms ease-in-out;
+  border-right: solid #d0d7de 1px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0px;
+}
+
+.side-menu-open {
+  transform: translateX(0%);
+}
+
+.side-menu-item {
+  color: black;
+  cursor: pointer;
+  margin-bottom: 5px;
+  padding: 10px;
+}
+
+.side-menu-item:hover {
+  background-color: lightgray;
 }
 
 @media (max-width: 922px) {
